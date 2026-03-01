@@ -11,6 +11,7 @@ This is my Google Data Analytics Certificate capstone project. I analyzed 12 mon
 - **tidyverse** — data manipulation
 - **ggplot2** — data visualization
 - **janitor** — data cleaning
+- **scales** — number formatting in visualizations
 - **Kaggle** — notebook hosting
 
 ## Key Findings
