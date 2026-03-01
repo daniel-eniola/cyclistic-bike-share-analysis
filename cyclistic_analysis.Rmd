@@ -1,0 +1,291 @@
+---
+title: "Cyclistic Bike-Share Analysis"
+author: "Daniel Eniola"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    theme: flatly
+    highlight: tango
+  pdf_document:
+    toc: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+---
+
+## 1. Introduction
+
+### Background
+
+This case study is the Google Data Analytics Certificate capstone project. I am acting as a junior data analyst at **Cyclistic**, a fictional bike-share company based in Chicago.
+
+Cyclistic offers a fleet of bikes that can be unlocked from one station and returned to any other station in the network. Riders can purchase:
+
+- **Single-ride passes** (casual riders)
+- **Full-day passes** (casual riders)
+- **Annual memberships** (members)
+
+The marketing director believes that converting casual riders into annual members is key to Cyclistic's future growth. Three questions will guide the future marketing program:
+
+* **How do annual members and casual riders use Cyclistic bikes differently?**
+* **Why would casual riders buy Cyclistic annual memberships?**
+* **How can Cyclistic use digital media to influence casual riders to become members?**
+
+I have been assigned the **first question** as my focus:
+
+> **How do annual members and casual riders use Cyclistic bikes differently?**
+
+The insights from this analysis will inform a marketing strategy to convert 
+casual riders into annual members.
+
+### Data Source
+
+Data was sourced from [Divvy trip data](https://divvy-tripdata.s3.amazonaws.com/index.html), made available by Motivate International Inc. under a public license. The dataset covers **12 months of ride data (February 2025 – January 2026)**, containing over 5.5 million records.
+
+---
+
+## 2. Prepare
+
+### Load Libraries
+
+```{r load-libraries}
+library(tidyverse)
+library(janitor)
+library(scales)
+```
+
+### Load Data
+
+Each monthly CSV file was loaded separately and combined into one dataframe.
+
+```{r load-data}
+m01 <- read_csv("../Cyclistic_Analysis/csv_data/202501-divvy-tripdata.csv")
+m02 <- read_csv("../Cyclistic_Analysis/csv_data/202502-divvy-tripdata.csv")
+m03 <- read_csv("../Cyclistic_Analysis/csv_data/202503-divvy-tripdata.csv")
+m04 <- read_csv("../Cyclistic_Analysis/csv_data/202504-divvy-tripdata.csv")
+m05 <- read_csv("../Cyclistic_Analysis/csv_data/202505-divvy-tripdata.csv")
+m06 <- read_csv("../Cyclistic_Analysis/csv_data/202506-divvy-tripdata.csv")
+m07 <- read_csv("../Cyclistic_Analysis/csv_data/202507-divvy-tripdata.csv")
+m08 <- read_csv("../Cyclistic_Analysis/csv_data/202508-divvy-tripdata.csv")
+m09 <- read_csv("../Cyclistic_Analysis/csv_data/202509-divvy-tripdata.csv")
+m10 <- read_csv("../Cyclistic_Analysis/csv_data/202510-divvy-tripdata.csv")
+m11 <- read_csv("../Cyclistic_Analysis/csv_data/202511-divvy-tripdata.csv")
+m12 <- read_csv("../Cyclistic_Analysis/csv_data/202512-divvy-tripdata.csv")
+
+# Combine into one dataframe
+all_trips <- bind_rows(m01, m02, m03, m04, m05, m06, m07, m08, m09, m10, m11, m12)
+```
+
+### Explore the Data
+
+```{r explore}
+glimpse(all_trips)
+```
+
+The combined dataset contains **`r format(nrow(all_trips), big.mark=",")`** rows and **`r ncol(all_trips)`** columns.
+
+### Check for Missing Values
+
+```{r missing-values}
+colSums(is.na(all_trips))
+```
+
+**Key observations on missing data:**
+
+- `start_station_name` and `start_station_id`: 1,186,374 missing — mostly electric bikes that do not require docking at a named station. These were **retained** as they represent valid rides.
+- `end_station_name` and `end_station_id`: 1,246,827 missing — same reason as above. **Retained.**
+- `end_lat` and `end_lng`: 5,670 missing — GPS did not record an end location. Since no map analysis was performed, these were **retained.**
+
+---
+
+## 3. Process
+
+### Add New Columns
+
+New columns were added to support analysis:
+
+```{r add-columns}
+all_trips <- all_trips %>%
+  mutate(
+    ride_length    = ended_at - started_at,
+    ride_length_mins = as.numeric(ride_length) / 60,
+    day_of_week    = wday(started_at, label = TRUE),
+    month          = month(started_at, label = TRUE),
+    year           = year(started_at)
+  )
+
+colnames(all_trips)
+```
+
+### Inspect Ride Length
+
+```{r summary-ride-length}
+summary(all_trips$ride_length_mins)
+```
+
+The summary reveals **negative ride lengths** (minimum: -54.8 minutes), indicating data errors where `ended_at` was recorded before `started_at`. These are impossible in real life and must be removed.
+
+### Clean Data — Create all_trips_V2
+
+Rides under 1 minute (including all negative values) were removed as they represent either data errors or false starts.
+
+```{r clean-data}
+# Check how many rows will be removed
+all_trips %>%
+  filter(ride_length_mins < 1) %>%
+  nrow()
+
+# Create clean dataframe
+all_trips_V2 <- all_trips %>%
+  filter(ride_length_mins >= 1)
+
+glimpse(all_trips_V2)
+```
+
+**`r format(nrow(all_trips) - nrow(all_trips_V2), big.mark=",")`** rides were removed, leaving **`r format(nrow(all_trips_V2), big.mark=",")`** clean records for analysis.
+
+---
+
+## 4. Analyse
+
+### Average Ride Length by Rider Type
+
+```{r avg-ride-length}
+all_trips_V2 %>%
+  group_by(member_casual) %>%
+  summarise(average_ride_length = mean(ride_length_mins))
+```
+
+Casual riders average **23.5 minutes** per ride compared to **12.7 minutes** for members — almost twice as long.
+
+### Total Rides by Rider Type
+
+```{r total-rides}
+all_trips_V2 %>%
+  count(member_casual)
+```
+
+Members take significantly more rides than casual riders despite shorter individual ride durations.
+
+### Total Rides by Day of Week
+
+```{r rides-by-day}
+all_trips_V2 %>%
+  count(member_casual, day_of_week) %>%
+  print(n = 14)
+```
+
+### Average Ride Length by Day of Week
+
+```{r avg-length-by-day}
+all_trips_V2 %>%
+  group_by(member_casual, day_of_week) %>%
+  summarise(average_ride_length = mean(ride_length_mins), .groups = "drop")
+```
+
+### Rides by Month
+
+```{r rides-by-month}
+all_trips_V2 %>%
+  count(member_casual, month) %>%
+  print(n = 24)
+```
+
+---
+
+## 5. Share — Visualisations
+
+### Chart 1: Number of Rides by Day of Week
+
+```{r viz-rides-by-day, fig.width=10, fig.height=6}
+all_trips_V2 %>%
+  mutate(day_of_week = factor(day_of_week, 
+                              levels = c("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"))) %>%
+  count(member_casual, day_of_week) %>%
+  ggplot(mapping = aes(x = day_of_week, y = n, fill = member_casual)) +
+  geom_col(position = "dodge") +
+  labs(title = "Number of Rides by Day of Week",
+       subtitle = "Members vs Casual Riders",
+       x = "Day of the Week",
+       y = "Number of Rides",
+       fill = "Rider Type") +
+  scale_y_continuous(labels = scales::comma) +
+  theme_minimal(base_size = 15) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+**Key finding:** Casual riders peak on **Saturday (396,411 rides)** and Sunday, while members peak on **weekday mornings (Tuesday–Thursday)**. This strongly suggests members use bikes for commuting while casual riders prefer leisure weekend rides.
+
+---
+
+### Chart 2: Number of Rides by Month
+
+```{r viz-rides-by-month, fig.width=10, fig.height=6}
+all_trips_V2 %>%
+  count(member_casual, month) %>%
+  ggplot(mapping = aes(x = month, y = n, fill = member_casual)) +
+  geom_col(position = "dodge") +
+  labs(title = "Number of Rides by Month",
+       subtitle = "Members vs Casual Riders",
+       x = "Month",
+       y = "Number of Rides",
+       fill = "Rider Type") +
+  scale_y_continuous(labels = scales::comma) +
+  theme_minimal(base_size = 15) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+**Key finding:** Both rider types peak in **summer (July–August)**, but casual riders drop **dramatically** in **winter (January: 23,964 rides)** while members remain far more consistent **year-round (January: 109,969 rides)**. This highlights the weather-dependent nature of casual riders.
+
+---
+
+### Chart 3: Average Ride Length by Day of Week
+
+```{r viz-avg-ride-length, fig.width=10, fig.height=6}
+all_trips_V2 %>%
+  group_by(member_casual, day_of_week) %>%
+  mutate(day_of_week = factor(day_of_week, 
+                              levels = c("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"))) %>%
+  summarise(average_ride_length = mean(ride_length_mins)) %>%
+  ggplot(aes(x = day_of_week, y = average_ride_length, fill = member_casual)) +
+  geom_col(position = "dodge") +
+  labs(title = "Average Ride Length by Day of Week",
+       subtitle = "Members vs Casual Riders",
+       x = "Day of the Week",
+       y = "Average Ride Length (minutes)",
+       fill = "Rider Type") +
+  scale_y_continuous(labels = scales::comma) +
+  theme_minimal(base_size = 15) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+**Key finding:** Casual riders take their longest rides on **weekends (Sunday: 27.3 mins, Saturday: 26.4 mins)**, reinforcing the leisure-riding pattern. Members ride at a remarkably **consistent 12–14 minutes every day**, consistent with purposeful short commutes.
+
+---
+
+## 6. Act — Recommendations
+
+Based on the analysis, the following three recommendations are made to help Cyclistic convert casual riders into annual members:
+
+---
+
+### Recommendation 1: Launch Weekend Conversion Campaigns Starting Thursday
+
+Analysis shows casual riders peak on **Saturdays (396,411 rides)** and **Sundays (318,480 rides)**. Cyclistic should launch targeted digital and in-app marketing campaigns from **Thursday onwards** to capture casual riders during their highest-activity period. Ads should highlight the cost savings of annual membership for riders who already ride frequently on weekends, showing them that a membership quickly pays for itself.
+
+---
+
+### Recommendation 2: Promote Membership for Weekday Convenience and Short Trips
+
+Casual riders average **23.5 minutes per ride** but their weekday ridership is significantly lower than members. Marketing should reframe membership not just as a leisure upgrade, but as a practical tool for **spontaneous weekday trips** — avoiding car use for short errands, unexpected commutes, or emergency situations. Messaging such as *"No car? No problem — your membership covers you any time"* could resonate with this segment.
+
+---
+
+### Recommendation 3: Run Seasonal Pre-Summer Membership Promotions
+
+Casual ridership **surges in summer (June–August)** and drops sharply in winter. Cyclistic should launch **discounted membership offers in March and April**, just before the peak season begins, to convert casual riders into members before they reach their highest riding frequency. A limited-time spring offer could create urgency and capture riders already planning their cycling season.
