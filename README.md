@@ -41,7 +41,7 @@ This project is part of the Google Data Analytics Certificate capstone. I analyz
 - `cyclistic_analysis.Rmd` — full analysis with code  
 - `cyclistic_analysis.html` — interactive report  
 - `cyclistic_analysis.pdf` — presentation-ready report  
-- `charts/` — visualizations  
+- `PNG charts` — visualizations  
 
 ---
 
