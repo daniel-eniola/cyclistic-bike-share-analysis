@@ -1,7 +1,9 @@
 # Cyclistic Bike-Share Analysis
 
 ## Overview
-This is my Google Data Analytics Certificate capstone project. I analyzed 12 months of Cyclistic bike-share trip data (February 2025 – January 2026) to understand how annual members and casual riders use Cyclistic bikes differently.
+This is my Google Data Analytics Certificate capstone project. I analyzed 12 months of 
+Cyclistic bike-share trip data (February 2025 – January 2026) to understand how annual 
+members and casual riders use Cyclistic bikes differently.
 
 ## Business Question
 **How do annual members and casual riders use Cyclistic bikes differently?**
@@ -12,16 +14,21 @@ This is my Google Data Analytics Certificate capstone project. I analyzed 12 mon
 - **ggplot2** — data visualization
 - **janitor** — data cleaning
 - **scales** — number formatting in visualizations
-- **Kaggle** — notebook hosting
 
 ## Key Findings
 - Casual riders average **23.5 minutes** per ride vs **12.7 minutes** for members
 - Casual riders peak on **weekends** while members peak on **weekdays**
 - Both groups peak in **summer** but casual riders drop dramatically in winter
 
+## Top Recommendations
+- Launch weekend conversion campaigns starting Thursday
+- Promote membership for weekday convenience and short trips
+- Run seasonal pre-summer membership promotions in March–April
+
 ## Files
 - `cyclistic_analysis.Rmd` — full analysis with code and explanations
 - `cyclistic_analysis.pdf` — formatted report
+- `cyclistic_analysis.html` — interactive web report
 - PNG charts — data visualizations
 
 ## Live Notebook
