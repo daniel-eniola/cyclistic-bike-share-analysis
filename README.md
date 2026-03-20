@@ -17,7 +17,6 @@ This project is part of the Google Data Analytics Certificate capstone. I analyz
 - **R** — data cleaning, analysis, and visualization  
 - **tidyverse** — data manipulation  
 - **ggplot2** — data visualization  
-- **janitor** — data cleaning  
 - **scales** — formatting and presentation  
 
 ---
