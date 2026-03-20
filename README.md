@@ -14,33 +14,33 @@ This project is part of the Google Data Analytics Certificate capstone. I analyz
 ---
 
 ## 🛠 Tools & Technologies
-- **R** — data cleaning, analysis, and visualization  
-- **tidyverse** — data manipulation  
-- **ggplot2** — data visualization  
-- **scales** — formatting and presentation  
+- **R**: data cleaning, analysis, and visualization
+- **tidyverse**: data manipulation
+- **ggplot2**: data visualization
+- **scales**: formatting and presentation
 
 ---
 
 ## 🔍 Key Insights
-- Casual riders average **23.5 minutes per ride**, nearly **2x longer** than members (12.7 mins)  
-- Casual usage peaks on **weekends**, indicating leisure behavior  
-- Members ride more frequently on **weekdays**, suggesting commuting patterns  
-- Casual ridership is highly **seasonal**, with sharp declines in winter  
+- Casual riders average **23.5 minutes per ride**, nearly **2x longer** than members (12.7 mins)
+- Casual usage peaks on **weekends**, indicating leisure behavior
+- Members ride more frequently on **weekdays**, suggesting commuting patterns
+- Casual ridership is highly **seasonal**, with sharp declines in winter
 
 ---
 
 ## 💡 Recommendations
-- 📈 Launch targeted **weekend conversion campaigns** starting Thursday  
-- 🚲 Position memberships as convenient for **weekday short trips and commuting**  
-- 🌤 Introduce **pre-summer promotions (March–April)** to capture peak-season users  
+- 📈 Launch targeted **weekend conversion campaigns** starting Thursday
+- 🚲 Position memberships as convenient for **weekday short trips and commuting**
+- 🌤 Introduce **pre-summer promotions (March–April)** to capture peak-season users
 
 ---
 
 ## 📁 Project Files
-- `cyclistic_analysis.Rmd` — full analysis with code  
-- `cyclistic_analysis.html` — interactive report  
-- `cyclistic_analysis.pdf` — presentation-ready report  
-- `PNG charts` — visualizations  
+- `cyclistic_analysis.Rmd`: full analysis with code
+- `cyclistic_analysis.html`: interactive report
+- `cyclistic_analysis.pdf`: presentation-ready report
+- `PNG charts`: visualizations
 
 ---
 
