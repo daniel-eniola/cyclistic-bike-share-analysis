@@ -29,6 +29,14 @@ This project is part of the Google Data Analytics Certificate capstone. I analyz
 
 ---
 
+## 📊 Visualisations
+
+![Number of Rides by Day of Week](number_of_rides_by_day_of_week.png)
+![Number of Rides by Month](number_of_rides_by_month.png)
+![Average Ride Length by Day of Week](average_ride_length_by_day_of_week.png)
+
+---
+
 ## 💡 Recommendations
 - 📈 Launch targeted **weekend conversion campaigns** starting Thursday
 - 🚲 Position memberships as convenient for **weekday short trips and commuting**
