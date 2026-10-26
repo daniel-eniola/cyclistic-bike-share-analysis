@@ -27,6 +27,8 @@ This question is explored through data cleaning, feature engineering, explorator
 * **ggplot2**: data visualization
 * **scales**: formatting and presentation
 
+> Note: the `janitor` package is loaded in the code but was not used in the analysis.
+
 ---
 
 ## 🧰 Project Highlights
@@ -74,12 +76,11 @@ This question is explored through data cleaning, feature engineering, explorator
 
 ---
 
-## 🔁 How to Reproduce
+## 🗂 Data Notes
 
-1. Download the monthly trip CSVs from the [Divvy Trip Data](https://divvy-tripdata.s3.amazonaws.com/index.html) page.
-2. Place them in a folder named `csv_data/` next to the `.Rmd` file.
-3. Install the packages: `install.packages(c("tidyverse", "scales"))`
-4. Open `cyclistic_analysis.Rmd` in RStudio and click **Knit**.
+* The analysis uses 12 monthly files, from `202502-divvy-tripdata` to `202601-divvy-tripdata`.
+* The CSV inside `202601-divvy-tripdata.zip` is mislabelled `202501-divvy-tripdata.csv` by Divvy, but it contains **January 2026** data. The real January 2025 file is not used.
+* The raw data is not stored in this repository because of its size.
 
 ---
 
