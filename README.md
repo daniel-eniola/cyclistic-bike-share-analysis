@@ -73,7 +73,7 @@ This question is explored through data cleaning, feature engineering, explorator
 
 * Only rides under 1 minute were removed, so very long rides (up to about 1,575 minutes) remain and raise the casual average. Median ride length would be a more robust comparison.
 * Time of day was not analysed, so the commuting interpretation is an inference from day-of-week patterns.
-* The PDF report describes member peaks as "weekday mornings", but time of day was not analysed, so read this as "weekdays".
+* The PDF and HTML reports describe member peaks as "weekday mornings", but time of day was not analysed, so read this as "weekdays".
 
 ---
 
