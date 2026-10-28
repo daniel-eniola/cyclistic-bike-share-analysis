@@ -7,8 +7,8 @@ This project presents an end-to-end data analysis of Cyclistic bike-share data a
 The analysis covers over **5.4 million cleaned bike-share trips (February 2025 to January 2026)** and focuses on understanding how different rider types use the service. The goal is to generate insights that support marketing strategies aimed at converting casual riders into annual members.
 
 🔗 **[View Full Report (HTML)](https://daniel-eniola.github.io/cyclistic-bike-share-analysis/cyclistic_analysis.html)**
-🔗 **[View Full Report (RPubs)](https://rpubs.com/DanielEniola/cyclistic-bike-share-analysis)**
-🔗 **[View Kaggle Notebook](https://www.kaggle.com/code/danieleniola/cyclistic-bike-share-analysis)**
+
+*Also available on: [RPubs](https://rpubs.com/DanielEniola/cyclistic-bike-share-analysis) · [Kaggle](https://www.kaggle.com/code/danieleniola/cyclistic-bike-share-analysis)*
 
 ---
 
@@ -43,7 +43,7 @@ This question is explored through data cleaning, feature engineering, explorator
 
 ## 🔍 Key Insights
 
-* Casual riders average **23.5 minutes per ride**, nearly **2 times longer** than members (12.7 minutes)
+* Casual riders average **23.5 minutes per ride**, nearly **twice as long** as members (12.7 minutes)
 * Members take significantly more rides (**3.48 million vs 1.92 million**), indicating higher usage frequency
 * Casual riders peak on **weekends**, especially Saturday and Sunday, showing leisure behavior
 * Members ride more frequently on **weekdays**, consistent with commuting and routine usage
@@ -73,6 +73,7 @@ This question is explored through data cleaning, feature engineering, explorator
 
 * Only rides under 1 minute were removed, so very long rides (up to about 1,575 minutes) remain and raise the casual average. Median ride length would be a more robust comparison.
 * Time of day was not analysed, so the commuting interpretation is an inference from day-of-week patterns.
+* The PDF report describes member peaks as "weekday mornings", but time of day was not analysed, so read this as "weekdays".
 
 ---
 
