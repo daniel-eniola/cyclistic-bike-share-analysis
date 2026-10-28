@@ -44,7 +44,7 @@ This question is explored through data cleaning, feature engineering, explorator
 ## 🔍 Key Insights
 
 * Casual riders average **23.5 minutes per ride**, nearly **twice as long** as members (12.7 minutes)
-* Members take significantly more rides (**3.48 million vs 1.92 million**), indicating higher usage frequency
+* Members account for about **64% of all rides** (**3.48 million vs 1.92 million**)
 * Casual riders peak on **weekends**, especially Saturday and Sunday, showing leisure behavior
 * Members ride more frequently on **weekdays**, consistent with commuting and routine usage
 * Casual ridership is highly **seasonal**, with sharp declines in winter, while members remain relatively consistent year-round
